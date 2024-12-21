@@ -2,6 +2,7 @@ const {PrismaClient} = require("@prisma/client")
 const prisma = new PrismaClient()
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const userModel = require("../models/userModel")
 
 module.exports = {
 
@@ -19,9 +20,7 @@ module.exports = {
             // hash da senha antes de salvar no banco
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            const user = await prisma.user.create({
-                data: {username, password: hashedPassword}
-            });
+            const user = await userModel.createUser({username, password: hashedPassword});
 
             return resp.status(200).json({messagem: "Usuário cadastrado com sucesso", user})
 
@@ -32,7 +31,7 @@ module.exports = {
 
     getAllUsers: async (req, resp) => {
         try {
-            const users = await prisma.user.findMany();
+            const users = await userModel.getAllUsers();
             return resp.status(200).json(users)
 
         } catch (error) {
@@ -45,9 +44,7 @@ module.exports = {
 
         try {
 
-            const user = await prisma.user.findUnique({
-                where: {id: String(id)}
-            })
+            const user = await userModel.getUserById({id})
 
             if (!user) {
                 return resp.status(404).json({message: "Usuário não encontrado"})
@@ -71,10 +68,11 @@ module.exports = {
 
         try {
 
-            const user = await prisma.user.update({
-                where: {id: String(id)},
-                data: {username, password}
-            })
+            if (password) {
+                var hashedPassword = await bcrypt.hash(password, 10)
+            }
+
+            const user = await userModel.updateUser(id, {username, hashedPassword})
 
             if (!user) {
                 return resp.status(404).json({message: "Usuário não encontrado"})
@@ -91,9 +89,7 @@ module.exports = {
         const { id } = req.body;
 
         try {
-            const user = await prisma.user.delete({
-                where: {id: String(id)}
-            })
+            const user = await userModel.deleteUser(id)
             return resp.status(200).json({message: "Usuário deletado com sucesso"})
 
         } catch (error) {
@@ -106,6 +102,8 @@ module.exports = {
         const {username, password} = req.body;
 
         // const unhashPassword = await bcrypt.decodeBase64(password)
+
+        // console.log(unhashPassword)
 
         try {
             const user = await prisma.user.findFirst({
