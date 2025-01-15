@@ -1,11 +1,9 @@
 const {PrismaClient} = require("@prisma/client")
 const prisma = new PrismaClient()
-const bcrypt = require("bcryptjs")
 
 
 const userModel = {
 
-    // Autenticação de usuários com JWT
 
     // CRUD de usuário com prisma
     createUser: async (data) => {

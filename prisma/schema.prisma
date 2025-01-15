@@ -17,6 +17,13 @@ model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   username String 
   password String @unique
+  cpf String
+  registeredAt DateTime
+  contact String
+  address String
+  coren String
+  education String
+  institution String
   createdAt DateTime @default(now())
 }
 

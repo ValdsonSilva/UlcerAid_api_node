@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken")
 const userModel = require("../models/userModel")
 
 module.exports = {
-
     // Autenticação de usuários com JWT
 
     // CRUD de usuário com prisma
