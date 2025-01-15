@@ -18,11 +18,10 @@ model User {
   username String
   password String @unique
   cpf String?
-  registeredAt DateTime // ***
   contact String?
   address String?
   coren String?
-  education String?
+  area String?
   institution String?
   createdAt DateTime @default(now())
 }

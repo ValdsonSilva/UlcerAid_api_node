@@ -13,8 +13,3 @@ module.exports = (app) => {
     app.put('/api/v1/update-user', userController.authenticateToken, userController.updateUser);
     app.delete('/api/v1/delete-user', userController.deleteUser);
 }
-
-/*
-    Na função de update, a senha não está sendo hasheada antes de gravar no banco,
-    por isso da senha inválido no Valdson no login
- */

@@ -17,7 +17,7 @@ module.exports = {
             contact : req.body.contact || null,
             address : req.body.address || null,
             coren : req.body.coren || null,
-            area : req.body.education || null,
+            area : req.body.area || null,
             institution : req.body.institution || null,
         }
 
@@ -37,7 +37,7 @@ module.exports = {
                 contact: data.contact,
                 address: data.address,
                 coren: data.coren,
-                education: data.education,
+                area: data.area,
                 institution: data.institution
             });
 
@@ -77,48 +77,38 @@ module.exports = {
     },
 
     updateUser: async (req, resp) => {
-        const id = req.body.id 
-        
-        const bodyData = {
-            username : req.body.username || null,
-            password : req.body.password || null,
-            cpf : req.body.cpf || null,
-            contact : req.body.contact || null,
-            address : req.body.address || null,
-            coren : req.body.coren || null,
-            area : req.body.education || null,
-            institution : req.body.institution || null,
+        const {id, password, ...bodyData} = req.body;
+
+        if (!id) {
+            return resp.status(400).json({message: "É obrigatório conter o ID"})
         }
 
-        const data = [...req.body]
-        const isAllNull = data.every((element) => element === null)
+        const fieldsToUpdate = Object.entries(bodyData)
+            .filter(([key, value]) => value !== undefined && value !== null)
+            .reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
 
-        if (isAllNull) {
-            return resp.status(400).json({message: "É obrigatório passar parametros para atualização"})
+        if (Object.keys(fieldsToUpdate).length === 0 && !password) {
+            return resp.status(400).json({message: "É obrigatório passar parâmetros para atualização"})
         }
-
-        if (id === null) {
-            return resp.status(400).json({message: "É obrigatório conter o id"})
-        }
-
-
 
         try {
-
             if (password) {
-                var hashedPassword = await bcrypt.hash(password, 10)
+                const hashedPassword = await bcrypt.hash(password, 10)
+                fieldsToUpdate.password = hashedPassword
             }
 
-            const user = await userModel.updateUser(id, {username, hashedPassword})
+            const user = await userModel.updateUser(id, fieldsToUpdate)
 
             if (!user) {
-                return resp.status(404).json({message: "Usuário não encontrado"})
+                return resp.json(400).json({message: "Usuário não encontrado"})
             }
 
             return resp.status(200).json({message: "Dados do usuário alterados com sucesso", user})
-
         } catch (error) {
-            return resp.status(500).json({message: "Erro ao atualizar dados do usuário", details: error.message})
+            return resp.status(500).json({
+                message : "Erro ao atualizar dados do usuário(interno)",
+                details : error.message
+            })
         }
     },
 
@@ -188,3 +178,16 @@ module.exports = {
         }
     }
 }
+
+/**
+ * {
+	    "username" : "Vauirlon",
+			"password" : "flamengo",
+			"cpf" : "08108800202",
+			"contact" : "111111111111",
+			"address": "Rua projetada, bairro Planalto Sambaíba, casa de n 118",
+			"coren" : "123456",
+			"area" : "Enfermagem",
+			"institution" : "UFPI"
+}
+ */

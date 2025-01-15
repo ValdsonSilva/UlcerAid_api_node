@@ -15,7 +15,7 @@ const userModel = {
                 contact: data.contact,
                 address: data.address,
                 coren: data.coren,
-                education: data.education,
+                area: data.area,
                 institution: data.institution
             }
         });
@@ -42,7 +42,7 @@ const userModel = {
                 contact: data.contact,
                 address: data.address,
                 coren: data.coren,
-                education: data.education,
+                area: data.area,
                 institution: data.institution
             }
         })
