@@ -9,17 +9,37 @@ module.exports = {
 
     // CRUD de usuário com prisma
     createUser: async (req, resp) => {
-        const { username, password } = req.body;
 
-        if (username === null || password === null) {
+        const data = {
+            username : req.body.username || null,
+            password : req.body.password || null,
+            cpf : req.body.cpf || null,
+            contact : req.body.contact || null,
+            address : req.body.address || null,
+            coren : req.body.coren || null,
+            area : req.body.education || null,
+            institution : req.body.institution || null,
+        }
+
+
+        if (data.username === null || data.password === null) {
             return resp.status(400).json({message: "Os campos não podem ser nulos"})
         }
 
         try {
             // hash da senha antes de salvar no banco
-            const hashedPassword = await bcrypt.hash(password, 10);
+            const hashedPassword = await bcrypt.hash(data.password, 10);
 
-            const user = await userModel.createUser({username, password: hashedPassword});
+            const user = await userModel.createUser({
+                username: data.username, 
+                password: hashedPassword,
+                cpf: data.cpf,
+                contact: data.contact,
+                address: data.address,
+                coren: data.coren,
+                education: data.education,
+                institution: data.institution
+            });
 
             return resp.status(200).json({messagem: "Usuário cadastrado com sucesso", user})
 
@@ -58,12 +78,30 @@ module.exports = {
 
     updateUser: async (req, resp) => {
         const id = req.body.id 
-        const username = req.body.username || null
-        const password = req.body.password || null
-
-        if (id === null & username === null & password === null) {
-            return resp.status(400).json({message: "É obrigatório conter no mínimo um campo não nulo"})
+        
+        const bodyData = {
+            username : req.body.username || null,
+            password : req.body.password || null,
+            cpf : req.body.cpf || null,
+            contact : req.body.contact || null,
+            address : req.body.address || null,
+            coren : req.body.coren || null,
+            area : req.body.education || null,
+            institution : req.body.institution || null,
         }
+
+        const data = [...req.body]
+        const isAllNull = data.every((element) => element === null)
+
+        if (isAllNull) {
+            return resp.status(400).json({message: "É obrigatório passar parametros para atualização"})
+        }
+
+        if (id === null) {
+            return resp.status(400).json({message: "É obrigatório conter o id"})
+        }
+
+
 
         try {
 

@@ -10,7 +10,13 @@ const userModel = {
         return await prisma.user.create({
             data: {
                 username: data.username,
-                password: data.password
+                password: data.password,
+                cpf: data.cpf,
+                contact: data.contact,
+                address: data.address,
+                coren: data.coren,
+                education: data.education,
+                institution: data.institution
             }
         });
     },
@@ -31,7 +37,13 @@ const userModel = {
             where: {id: String(id)},
             data : {
                 username: data.username,
-                password: data.hashedPassword
+                password: data.hashedPassword,
+                cpf: data.cpf,
+                contact: data.contact,
+                address: data.address,
+                coren: data.coren,
+                education: data.education,
+                institution: data.institution
             }
         })
     },
