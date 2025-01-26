@@ -1,4 +1,5 @@
-const {PrismaClient} = require("@prisma/client")
+const {PrismaClient} = require("@prisma/client");
+const { ObjectId } = require("mongodb");
 const prisma = new PrismaClient()
 
 
@@ -28,7 +29,7 @@ const userModel = {
     getUserById: async (id) => {
 
         return await prisma.user.findUnique({
-            where: {id: String(id)}
+            where: {id: new ObjectId(id).toString()}
         })
     },
 

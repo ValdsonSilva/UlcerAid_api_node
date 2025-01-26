@@ -3,6 +3,7 @@ const prisma = new PrismaClient()
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const userModel = require("../models/userModel")
+const {ObjectId} = require("mongodb")
 
 module.exports = {
     // Autenticação de usuários com JWT
@@ -59,9 +60,17 @@ module.exports = {
     },
 
     getUserById: async (req, resp) => {
-        const { id } = req.body;
+        const { id } = req.query;
 
         try {
+
+            if (typeof id === 'object') {
+                id = id.toString()
+            }
+
+            if (!ObjectId.isValid(id)) {
+                throw new Error("ID inválido: " + id);
+            }
 
             const user = await userModel.getUserById({id})
 
@@ -124,17 +133,16 @@ module.exports = {
         }
     },
 
-    // validação de usuário com token JWt
+    // validação de usuário com token JWT
     loginUser: async (req, resp) => {
+        console.log(req.body)
+
         const {username, password} = req.body;
-
-        // const unhashPassword = await bcrypt.decodeBase64(password)
-
-        // console.log(unhashPassword)
 
         try {
             const user = await prisma.user.findFirst({
                 where : {username}
+                
             })
 
             if (!user) {
