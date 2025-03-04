@@ -186,16 +186,3 @@ module.exports = {
         }
     }
 }
-
-/**
- * {
-	    "username" : "Vauirlon",
-			"password" : "flamengo",
-			"cpf" : "08108800202",
-			"contact" : "111111111111",
-			"address": "Rua projetada, bairro Planalto Sambaíba, casa de n 118",
-			"coren" : "123456",
-			"area" : "Enfermagem",
-			"institution" : "UFPI"
-}
- */

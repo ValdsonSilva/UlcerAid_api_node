@@ -48,8 +48,10 @@ def predict(image_path, threshold=threshold):
 # Ponto de entrada do script
 if __name__ == "__main__":
     image_path = sys.argv[1]  # Recebe o caminho da imagem como argumento
-    try:
-        result = predict(image_path)
-        print(json.dumps({"prediction": result}, ensure_ascii=False))  # JSON válido
-    except Exception as e:
-        print(json.dumps({"error": str(e)}, ensure_ascii=False))  # Retorna o erro como JSON
+    
+    if (image_path):
+        try:
+            result = predict(image_path)
+            print(json.dumps({"prediction": result}, ensure_ascii=False))  # JSON válido
+        except Exception as e:
+            print(json.dumps({"error": str(e)}, ensure_ascii=False))  # Retorna o erro como JSON
