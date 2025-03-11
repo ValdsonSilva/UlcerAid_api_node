@@ -31,7 +31,7 @@ Esta API é parte de um sistema maior de apoio ao diagnóstico, focado em melhor
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/ValdsonSilva/UlcerAId-Api-Node.git
+[git clone https://github.com/ValdsonSilva/UlcerAid_api_node.git
 ```
 2. Instale as dependências:
 - npm install
@@ -39,7 +39,7 @@ git clone https://github.com/ValdsonSilva/UlcerAId-Api-Node.git
 3. Inicie a aplicação:
 - node app.js
 
-📸 Predição com Imagens
+📸 Predição com Imagens:
 A predição é feita via uma rota específica da API, que recebe uma imagem e executa o script Python já 
 integrado ao projeto. O modelo retorna se há ou não a presença de úlceras em pés diabéticos.
 
