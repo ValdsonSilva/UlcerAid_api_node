@@ -31,7 +31,7 @@ Esta API é parte de um sistema maior de apoio ao diagnóstico, focado em melhor
 1. Clone o repositório:
 
 ```bash
-[git clone https://github.com/ValdsonSilva/UlcerAid_api_node.git
+git clone https://github.com/ValdsonSilva/UlcerAid_api_node.git
 ```
 2. Instale as dependências:
 - npm install
