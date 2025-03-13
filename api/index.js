@@ -1,5 +1,5 @@
 const app = require("../config/express.js")();
-const config = require("config");
+// const config = require("config");
 const port = config.get("server.port");
 require('dotenv').config();
 
