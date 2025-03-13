@@ -6,7 +6,6 @@ module.exports = (app) => {
     // login
     app.post('/api/v1/login', userController.loginUser);
 
-    // logo mais assinar as outras rotas aqui
     app.post('/api/v1/create-user', userController.authenticateToken, userController.createUser);
     app.get('/api/v1/users', userController.getAllUsers);
     app.get('/api/v1/user', userController.authenticateToken, userController.getUserById);

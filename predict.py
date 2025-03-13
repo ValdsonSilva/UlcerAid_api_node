@@ -38,11 +38,26 @@ def preprocess_image(image_path):
     img_array = image.img_to_array(img) / 255.0  # Normalização
     return np.expand_dims(img_array, axis=0)  # Adiciona a dimensão do batch
 
-# Função de predição
-def predict(image_path, threshold=threshold):
+def predict(image_path, threshold=0.5):
     img = preprocess_image(image_path)
     prediction = model.predict(img, verbose=0)
-    result = "Com úlcera" if prediction[0] < threshold else "Sem úlcera"
+
+    # Força o valor para ser escalar corretamente
+    probabilidade = float(prediction.flatten()[0])
+
+    # Determina a classe usando o threshold corretamente
+    if probabilidade < threshold:
+        classe = "Com úlcera"
+        confianca = (1 - probabilidade)
+    else:
+        classe = "Sem úlcera"
+        confianca = probabilidade
+
+    result = {
+        "classe": classe,
+        "probabilidade": round(confianca * 100, 2)
+    }
+
     return result
 
 # Ponto de entrada do script
