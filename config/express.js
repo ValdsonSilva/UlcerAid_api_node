@@ -3,7 +3,7 @@ const bodyParser = require("body-parser")
 // const config = require("config")
 const consign = require("consign")
 const cors = require("cors")
-require('dotenv').config();
+// require('dotenv').config();
 
 const allowedOrigins = {
     origin: ["http://localhost:5173"],
