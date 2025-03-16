@@ -6,7 +6,7 @@ const cors = require("cors")
 // require('dotenv').config();
 
 const allowedOrigins = {
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "https://ulcer-aid-front-react.vercel.app"],
     methods: ["GET", "POST", "DELETE", "PUT"]
 }
 
